@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
  const register = async (req, res) => {
-  const { username, password } = req.body;
+  const { name,username, password } = req.body;
   try {
     const userExist = await User.findOne({ username });
     if (userExist) {
@@ -11,7 +11,7 @@ import jwt from "jsonwebtoken";
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({ username, password: hashedPassword });
+    const newUser = await User.create({ name,username, password: hashedPassword });
 
     res.status(201).json({ message: "User registered", user: newUser });
   } catch (err) {

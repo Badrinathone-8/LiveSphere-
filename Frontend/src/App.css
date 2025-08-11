@@ -1,0 +1,89 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+
+  .App {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5; /* Optional */
+}
+
+}
+.landingPageContainer{
+  height:100vh;
+  width:100vw;
+  background:url("/public/hero.png");
+  background-size: cover;
+
+  
+
+}
+nav{
+  padding:1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+nav .vedio h2{
+  font-size: 2rem;
+  font-weight: 500;
+}
+nav .join{
+  display: flex;
+  align-items: center;
+  gap:1rem;
+}
+nav .join p{
+  font-size: 1.0rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+nav .join button{
+  background-color: rgb(244, 137, 6);
+  width:6rem;
+  height:1.8rem;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  border-color: none;
+}
+.hero{
+  display: flex;
+  justify-content: space-between;
+  padding-inline:3rem;
+  height: 70vh;
+  width:100vw;
+align-items: center;
+  
+
+}
+.hero img{
+  height:70vh;
+  width:auto;
+  margin-right: 3rem;
+}
+.hero .connect h1{
+  font-weight:500;
+
+}
+.hero .connect button{
+  margin-top: 1.5rem;
+    background-color: rgb(244, 137, 6);
+
+}
