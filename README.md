@@ -28,7 +28,8 @@ A modern, high-performance video calling application designed for seamless real-
 
 ---
 ##Signup
-[![signup](public/signup.png)  
+![signup](Frontend/public/signup.png)  
+![Upload Page](my-app/public/homepage.png)
 
 
 ## 📦 Installation & Setup  
