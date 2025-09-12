@@ -256,7 +256,7 @@ export default function Vediomeet() {
       ) : (
         <div style={{ display: "flex", gap: 16 }}>
           <div>
-            <h3>You: {username}</h3>
+            <h3 style={{ color:"#DCC5B2"}}>You: {username}</h3>
             <video ref={localVideoRef} autoPlay muted playsInline style={{ width: 320, border: "1px solid #ccc" }} />
             <div style={{ marginTop: 8 }}>
               <Button variant="contained" onClick={startScreenShare}>
@@ -266,7 +266,7 @@ export default function Vediomeet() {
           </div>
 
           <div>
-            <h3>Remotes</h3>
+            <h3  style={{ color:"#DCC5B2"}}>Remotes</h3>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {remotePeers.map((p) => (
                 <div key={p.socketId} style={{ border: "1px solid #ddd", padding: 8 }}>
@@ -292,8 +292,8 @@ export default function Vediomeet() {
           </div>
 
           <div style={{ width: 300 }}>
-            <h3>Chat</h3>
-            <div style={{ height: 300, overflowY: "auto", border: "1px solid #ccc", padding: 8 }}>
+            <h3 style={{ color:"#DCC5B2"}}>Chat</h3>
+            <div style={{ height: 300, overflowY: "auto",color:"hsla(207, 89%, 48%, 1.00)", border: "1px solid hsla(0, 0%, 0%, 1.00)", padding: 8 }}>
               {chatMessages.map((m, i) => (
                 <div key={i}>
                   <strong>{m.sender}: </strong>
@@ -302,7 +302,7 @@ export default function Vediomeet() {
               ))}
             </div>
             <div style={{ marginTop: 8 }}>
-              <TextField  InputPros={{ style: { color: "red", fontSize: "16px" } }}  value={chatInput} onChange={(e) => setChatInput(e.target.value)} label="Message" variant="outlined" />
+              <TextField className="msgs" InputPros={{ style: { color: "red", fontSize: "16px" } }}  value={chatInput} onChange={(e) => setChatInput(e.target.value)} label="Message" variant="outlined" />
               <Button onClick={sendChat} variant="contained" style={{ marginLeft: 8 }}>
                 Send
               </Button>

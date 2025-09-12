@@ -10,10 +10,10 @@ export default function landing() {
                         <h2>SphereLive Call</h2>
                     </div>
                     <div className='join'>
-                        <p>join as a Guest</p>
-                        <p>Register</p>
+                       <Link to={'/url'}> <p>join as a Guest</p></Link>
+                        <Link to={"/auth"}><p>Register</p></Link>
                         <button className='login'>
-                            <p>Login</p>
+                           <Link to={"/auth"}> <p>Login</p></Link>
                         </button>
 
                     </div>
