@@ -27,6 +27,9 @@ A modern, high-performance video calling application designed for seamless real-
 - **Authentication**: JWT / OAuth2  
 
 ---
+##Signup
+[![signup](public/signup.png)  
+
 
 ## 📦 Installation & Setup  
 
