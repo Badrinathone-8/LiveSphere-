@@ -27,9 +27,18 @@ A modern, high-performance video calling application designed for seamless real-
 - **Authentication**: JWT / OAuth2  
 
 ---
-##Signup
+##Screenshots
+---
+![homepage](Frontend/public/homepage.png)  
+
+![vediocall](Frontend/public/vediocallpage.png)  
+
 ![signup](Frontend/public/signup.png)  
-![Upload Page](my-app/public/homepage.png)
+
+![login](Frontend/public/login.png)  
+
+
+
 
 
 ## 📦 Installation & Setup  
