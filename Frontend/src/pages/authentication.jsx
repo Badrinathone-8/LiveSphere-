@@ -1,137 +1,48 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Avatar,
-  Button,
-  CssBaseline,
-  TextField,
-  Box,
-  Container,
-  Snackbar,
-} from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AuthContext } from "../contexts/authContext";
-
-const theme = createTheme();
+import { Button, TextField } from "@mui/material";
 
 export default function Authentication() {
   const { user, handleRegister, handleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [form, setForm] = useState(0); // 0 = login, 1 = signup
-  const [name, setName] = useState("");
+  const [form, setForm] = useState(0); // 0=login, 1=signup
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
 
-  // ✅ Redirect if user is already logged in
+  // If user is already logged in, redirect automatically
   useEffect(() => {
-    if (user && user.token) {
-      navigate("/videomeet");
-    }
+    if (user) navigate("/videomeet");
   }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (form === 1) {
-        const msg = await handleRegister(name, username, password);
-        setMessage(msg || "Registered successfully");
-        setName("");
-        setUsername("");
-        setPassword("");
-        setOpen(true);
-        setForm(0); // switch to login after signup
+      if (form === 0) {
+        await handleLogin(username, password);
       } else {
-        const msg = await handleLogin(username, password); // returns token & sets user in context
-        setMessage(msg || "Login successful");
-        setUsername("");
-        setPassword("");
-        setOpen(true);
-        navigate("/videomeet"); // redirect to video page
+        await handleRegister(name, username, password);
+        setForm(0); // after signup go to login
       }
     } catch (err) {
-      setMessage(err.message);
-      setOpen(true);
+      alert(err.message);
     }
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-
-          <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
-            <Button
-              onClick={() => setForm(0)}
-              variant={form === 0 ? "contained" : "outlined"}
-            >
-              Login
-            </Button>
-            <Button
-              onClick={() => setForm(1)}
-              variant={form === 1 ? "contained" : "outlined"}
-            >
-              Signup
-            </Button>
-          </Box>
-
-          <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSubmit}>
-            {form === 1 && (
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                label="Full Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            )}
-
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              label="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              label="Password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-              Submit
-            </Button>
-
-            <Snackbar
-              open={open}
-              autoHideDuration={4000}
-              onClose={() => setOpen(false)}
-              message={message}
-            />
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+    <div style={{ padding: 16 }}>
+      <h2>{form === 0 ? "Login" : "Signup"}</h2>
+      {form === 1 && (
+        <TextField label="Full Name" value={name} onChange={(e) => setName(e.target.value)} />
+      )}
+      <TextField label="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+      <TextField label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      <Button onClick={handleSubmit}>{form === 0 ? "Login" : "Signup"}</Button>
+      <Button onClick={() => setForm(form === 0 ? 1 : 0)}>
+        {form === 0 ? "Go to Signup" : "Go to Login"}
+      </Button>
+    </div>
   );
 }

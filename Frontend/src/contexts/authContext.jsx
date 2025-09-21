@@ -1,59 +1,47 @@
-import React from 'react'
-import { createContext,useState,useContext } from 'react'
+import React, { createContext, useState, useEffect } from "react";
+import axios from "axios";
 
-import axios from "axios"
-export const AuthContext=createContext();
-  const client=axios.create({
-    baseURL:"https://livesphere-backend-1sod.onrender.com/api/v1"
-  })
-  export const AuthProvider=({children})=>{
-const [user, setUser] = useState(() => {
-  const stored = localStorage.getItem("user");
-  return stored ? JSON.parse(stored) : null;
-}); const handleRegister=async(name,username,password)=> {
-  try{
-                 console.log("Sending register request:", name, username, password);
+export const AuthContext = createContext();
 
-    let result=await client.post("/register",{
-    name:name,
-    username:username,
-    password:password,
+const client = axios.create({
+  baseURL: "https://livesphere-backend-1sod.onrender.com/api/v1",
+});
 
-  })
-  if(result.status===201){
-     return result.data.message;
-  }
-  }catch(err){
-    throw err;
-  }
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null; // load saved user on app start
+  });
 
- }
- const handleLogin=async(username,password)=>{
-    try{
+  // Persist user across reloads
+  useEffect(() => {
+    const stored = localStorage.getItem("user");
+    if (stored) setUser(JSON.parse(stored));
+  }, []);
 
-       let result=await client.post("/login",{
-      username:username,
-      password:password,
-     })
+  const handleRegister = async (name, username, password) => {
+    const result = await client.post("/register", { name, username, password });
+    if (result.status === 201) return result.data.message;
+  };
 
-     if(result.status===201){
+  const handleLogin = async (username, password) => {
+    const result = await client.post("/login", { username, password });
+    if (result.status === 200) {
       const userData = { username, token: result.data.token };
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData)); // Save to localStorage
-    return result.data.message;
-     }
-    }catch(err){
-      throw err;
+      setUser(userData);
+      localStorage.setItem("user", JSON.stringify(userData)); // save in localStorage
+      return result.data.message;
     }
- }
+  };
 
-let data={
-  user,userData,handleRegister,handleLogin
-}
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("user"); // clear login details
+  };
 
   return (
-    <AuthContext.Provider value={data}>
+    <AuthContext.Provider value={{ user, handleRegister, handleLogin, handleLogout }}>
       {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
