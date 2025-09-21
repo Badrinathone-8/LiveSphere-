@@ -1,65 +1,59 @@
-// src/contexts/authContext.jsx
-import React, { createContext, useState, useEffect } from "react";
-import axios from "axios";
+import React from 'react'
+import { createContext,useState,useContext } from 'react'
 
-export const AuthContext = createContext();
+import axios from "axios"
+export const AuthContext=createContext();
+  const client=axios.create({
+    baseURL:"https://livesphere-backend-1sod.onrender.com/api/v1"
+  })
+  export const AuthProvider=({children})=>{
+const [user, setUser] = useState(() => {
+  const stored = localStorage.getItem("user");
+  return stored ? JSON.parse(stored) : null;
+}); const handleRegister=async(name,username,password)=> {
+  try{
+                 console.log("Sending register request:", name, username, password);
 
-const client = axios.create({
-  baseURL: "https://livesphere-backend-1sod.onrender.com/api/v1",
-});
+    let result=await client.post("/register",{
+    name:name,
+    username:username,
+    password:password,
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const stored = localStorage.getItem("user");
-    return stored ? JSON.parse(stored) : null;
-  });
+  })
+  if(result.status===201){
+     return result.data.message;
+  }
+  }catch(err){
+    throw err;
+  }
 
-  // Persist user on page load
-  useEffect(() => {
-    const stored = localStorage.getItem("user");
-    if (stored) setUser(JSON.parse(stored));
-  }, []);
+ }
+ const handleLogin=async(username,password)=>{
+    try{
 
-  const handleRegister = async (name, username, password) => {
-    try {
-      console.log("Sending register request:", name, username, password);
+       let result=await client.post("/login",{
+      username:username,
+      password:password,
+     })
 
-      const result = await client.post("/register", {
-        name,
-        username,
-        password,
-      });
-
-      if (result.status === 201) {
-        return result.data.message;
-      }
-    } catch (err) {
+     if(result.status===201){
+      const userData = { username, token: result.data.token };
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData)); // Save to localStorage
+    return result.data.message;
+     }
+    }catch(err){
       throw err;
     }
-  };
+ }
 
-  const handleLogin = async (username, password) => {
-    try {
-      const result = await client.post("/login", { username, password });
+let data={
+  user,userData,handleRegister,handleLogin
+}
 
-      if (result.status === 200) {
-        const userData = { username, token: result.data.token };
-        setUser(userData);
-        localStorage.setItem("user", JSON.stringify(userData));
-        return result.data.message;
-      }
-    } catch (err) {
-      if (err.response) throw new Error(err.response.data.message);
-      else throw new Error("Network error");
-    }
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
-  };
-
-  const data = { user, handleRegister, handleLogin, handleLogout };
-
-  return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
-};
+  return (
+    <AuthContext.Provider value={data}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
