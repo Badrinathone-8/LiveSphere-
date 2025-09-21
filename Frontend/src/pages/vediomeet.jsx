@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import "../styles/videocomponent.css";
 
-const SOCKET_SERVER_URL = "http://localhost:8000";
+const SOCKET_SERVER_URL = "https://livesphere-backend-1sod.onrender.com";
 const ICE_CONFIG = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
 
 export default function Vediomeet() {
