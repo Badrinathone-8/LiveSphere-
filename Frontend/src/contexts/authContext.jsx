@@ -4,7 +4,7 @@ import { createContext,useState,useContext } from 'react'
 import axios from "axios"
 export const AuthContext=createContext();
   const client=axios.create({
-    baseURL:"http://localhost:8000/api/v1"
+    baseURL:"https://livesphere-backend-1sod.onrender.com"
   })
   export const AuthProvider=({children})=>{
 const [user,userData]=useState(null);
