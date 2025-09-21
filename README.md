@@ -25,7 +25,9 @@ A modern, high-performance video calling application designed for seamless real-
 - **Database**: MongoDB / PostgreSQL (configurable)  
 - **Deployment**: Docker + GitHub Actions  
 - **Authentication**: JWT / OAuth2  
-
+---
+## ✨ Live Link
+https://livesphere-frontend.onrender.com
 ---
 ##Screenshots
 ---
